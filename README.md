@@ -28,12 +28,10 @@ El programa está dividido en archivos para mantener una estructura modular:
 
 Al ejecutar el programa se muestra el menú principal:
 
-```text
 ESTADISTICAS DE JUGADORES NBA
 1. Mostrar jugadores
 2. Ordenar jugadores
 3. Salir
-```
 
 ### 1. Mostrar jugadores
 
@@ -43,7 +41,6 @@ Al seleccionar la opción 1, el programa muestra todos los jugadores junto con s
 
 Al seleccionar la opción 2, aparece un segundo menú con los criterios disponibles:
 
-```text
 Ordenar jugadores por:
 1. Nombre
 2. Equipo
@@ -53,7 +50,6 @@ Ordenar jugadores por:
 6. Puntos
 7. Rebotes
 8. Asistencias
-```
 
 Se debe seleccionar un número del 1 al 8. El programa utiliza Merge Sort para ordenar los jugadores según el atributo seleccionado y posteriormente muestra los datos ya ordenados.
 
@@ -65,9 +61,7 @@ Al seleccionar la opción 3, el programa termina su ejecución.
 
 Si se introduce una opción que no corresponde con el menú, el programa muestra el mensaje:
 
-```text
 Opcion no valida.
-```
 
 ## Cumplimiento de las sub-competencias
 
