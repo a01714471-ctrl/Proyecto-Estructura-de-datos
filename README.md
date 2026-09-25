@@ -29,7 +29,7 @@ El programa está dividido en archivos para mantener una estructura modular:
 Al ejecutar el programa se muestra el menú principal:
 
 ```text
-===== ESTADISTICAS DE JUGADORES NBA =====
+ESTADISTICAS DE JUGADORES NBA
 1. Mostrar jugadores
 2. Ordenar jugadores
 3. Salir
