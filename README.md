@@ -2,7 +2,7 @@
 
 ## Descripción del avance
 
-En este avance desarrollamos un programa para consultar y organizar información de jugadores de la NBA. El programa utiliza una clase `Jugador` para almacenar diferentes atributos de cada jugador, como:
+En este avance desarrollamos un programa para consultar y organizar información de jugadores de la NBA. El programa utiliza una clase Jugador para almacenar diferentes atributos de cada jugador, como:
 
 * Nombre
 * Equipo
@@ -13,17 +13,16 @@ En este avance desarrollamos un programa para consultar y organizar información
 * Rebotes
 * Asistencias
 
-La información de los jugadores se almacena en un `vector<Jugador>`. El programa permite mostrar los datos y ordenarlos utilizando diferentes atributos.
+La información de los jugadores se almacena en un vector<Jugador>. El programa permite mostrar los datos y ordenarlos utilizando diferentes atributos.
 
 Para realizar el ordenamiento se implementó el algoritmo **Merge Sort**, utilizando programación genérica mediante una clase `Sorts<T>`. El algoritmo puede ordenar los jugadores por cualquiera de los ocho atributos disponibles.
 
 El programa está dividido en archivos para mantener una estructura modular:
 
-* `main.cpp`: contiene el menú principal, los datos de los jugadores y la interacción con el usuario.
-* `jugador.h`: contiene la clase `Jugador`, sus atributos, constructores, getters y el método `toString()`.
-* `sorts.h`: contiene la implementación del algoritmo Merge Sort y la lógica para ordenar los jugadores de acuerdo con el criterio seleccionado.
+* main.cpp: contiene el menú principal, los datos de los jugadores y la interacción con el usuario.
+* jugador.h: contiene la clase Jugador, sus atributos, constructores, getters y el método toString().
+* sorts.h: contiene la implementación del algoritmo Merge Sort y la lógica para ordenar los jugadores de acuerdo con el criterio seleccionado.
 
----
 
 ## ¿Cómo usar el programa?
 
@@ -38,11 +37,11 @@ Al ejecutar el programa se muestra el menú principal:
 
 ### 1. Mostrar jugadores
 
-Al seleccionar la opción `1`, el programa muestra todos los jugadores junto con sus estadísticas.
+Al seleccionar la opción 1, el programa muestra todos los jugadores junto con sus estadísticas.
 
 ### 2. Ordenar jugadores
 
-Al seleccionar la opción `2`, aparece un segundo menú con los criterios disponibles:
+Al seleccionar la opción 2, aparece un segundo menú con los criterios disponibles:
 
 ```text
 Ordenar jugadores por:
@@ -56,21 +55,19 @@ Ordenar jugadores por:
 8. Asistencias
 ```
 
-Se debe seleccionar un número del `1` al `8`. El programa utiliza Merge Sort para ordenar los jugadores según el atributo seleccionado y posteriormente muestra los datos ya ordenados.
+Se debe seleccionar un número del 1 al 8. El programa utiliza Merge Sort para ordenar los jugadores según el atributo seleccionado y posteriormente muestra los datos ya ordenados.
 
-Por ejemplo, si se selecciona la opción `6`, los jugadores se ordenan de acuerdo con sus puntos.
+Por ejemplo, si se selecciona la opción 6, los jugadores se ordenan de acuerdo con sus puntos.
 
 ### 3. Salir
 
-Al seleccionar la opción `3`, el programa termina su ejecución.
+Al seleccionar la opción 3, el programa termina su ejecución.
 
 Si se introduce una opción que no corresponde con el menú, el programa muestra el mensaje:
 
 ```text
 Opcion no valida.
 ```
-
----
 
 ## Cumplimiento de las sub-competencias
 
@@ -86,17 +83,17 @@ El programa utiliza **Merge Sort**, cuya complejidad temporal es:
 | Caso promedio | O(n log n)  |
 | Peor caso     | O(n log n)  |
 
-La función `mergeSort` primero realiza una copia de los datos y posteriormente llama a `mergeSplit`.
+La función mergeSort primero realiza una copia de los datos y posteriormente llama a mergeSplit.
 
-`mergeSplit` divide recursivamente el arreglo en dos partes hasta llegar a elementos individuales. Después utiliza `mergeArray` para combinar las partes nuevamente en orden.
+mergeSplit divide recursivamente el arreglo en dos partes hasta llegar a elementos individuales. Después utiliza mergeArray para combinar las partes nuevamente en orden.
 
 La división genera dos llamadas recursivas sobre mitades del arreglo y la combinación requiere recorrer los elementos de las partes que se están uniendo. Por esto, el comportamiento de Merge Sort se expresa como:
 
 **O(n log n)**
 
-La función `mergeArray` tiene una complejidad de **O(n)** porque recorre los elementos de las dos partes para colocarlos en el arreglo temporal y posteriormente utiliza `copyArray`, que también recorre los elementos una vez.
+La función mergeArray tiene una complejidad de **O(n)** porque recorre los elementos de las dos partes para colocarlos en el arreglo temporal y posteriormente utiliza copyArray, que también recorre los elementos una vez.
 
-La función `copyArray` tiene una complejidad de **O(n)** debido al ciclo `for` que copia los elementos desde el arreglo temporal.
+La función copyArray tiene una complejidad de **O(n)** debido al ciclo for que copia los elementos desde el arreglo temporal.
 
 Por lo tanto, considerando las funciones que participan en el ordenamiento, la complejidad total del algoritmo utilizado es:
 
@@ -104,9 +101,7 @@ Por lo tanto, considerando las funciones que participan en el ordenamiento, la c
 **Caso promedio: O(n log n)**
 **Peor caso: O(n log n)**
 
-El análisis de complejidad también está indicado directamente en `sorts.h` mediante comentarios en las funciones y en las instrucciones principales de los ciclos, condiciones y llamadas recursivas.
-
----
+El análisis de complejidad también está indicado directamente en sorts.h mediante comentarios en las funciones y en las instrucciones principales de los ciclos, condiciones y llamadas recursivas.
 
 ### SICT0302: Toma decisiones
 
@@ -114,7 +109,7 @@ Para organizar las estadísticas de los jugadores se seleccionó **Merge Sort** 
 
 La selección se debe a que el programa necesita ordenar los mismos datos utilizando diferentes atributos, como nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias.
 
-Merge Sort permite realizar este proceso mediante la función `mergeArray`, donde se determina el atributo que se utilizará para comparar los jugadores. El parámetro `criterio` permite seleccionar el atributo correspondiente:
+Merge Sort permite realizar este proceso mediante la función mergeArray, donde se determina el atributo que se utilizará para comparar los jugadores. El parámetro criterio permite seleccionar el atributo correspondiente:
 
 * `1`: Nombre
 * `2`: Equipo
