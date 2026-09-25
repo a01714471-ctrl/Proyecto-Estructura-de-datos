@@ -105,21 +105,27 @@ El análisis de complejidad también está indicado directamente en sorts.h medi
 
 ### SICT0302: Toma decisiones
 
-Para organizar las estadísticas de los jugadores se seleccionó **Merge Sort** como algoritmo de ordenamiento.
+Para este proyecto se decidió utilizar **Merge Sort** como algoritmo de ordenamiento, considerando las características del problema y la complejidad temporal de las diferentes alternativas.
 
-La selección se debe a que el programa necesita ordenar los mismos datos utilizando diferentes atributos, como nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias.
+El programa debe permitir organizar los datos de los jugadores utilizando diferentes atributos, como nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias. Aunque actualmente el programa trabaja con una cantidad pequeña de jugadores, el problema está diseñado para poder trabajar con una cantidad mayor de datos. Por esta razón, se consideró importante seleccionar un algoritmo cuyo rendimiento se mantenga eficiente conforme aumente el número de elementos.
 
-Merge Sort permite realizar este proceso mediante la función mergeArray, donde se determina el atributo que se utilizará para comparar los jugadores. El parámetro criterio permite seleccionar el atributo correspondiente:
+Se analizaron principalmente **Bubble Sort, Selection Sort, Insertion Sort y Merge Sort**:
 
-* `1`: Nombre
-* `2`: Equipo
-* `3`: Posición
-* `4`: Edad
-* `5`: Altura
-* `6`: Puntos
-* `7`: Rebotes
-* `8`: Asistencias
+| Algoritmo | Mejor caso | Caso promedio | Peor caso |
+|---|---:|---:|---:|
+| Bubble Sort | O(n) | O(n²) | O(n²) |
+| Selection Sort | O(n²) | O(n²) | O(n²) |
+| Insertion Sort | O(n) | O(n²) | O(n²) |
+| **Merge Sort** | **O(n log n)** | **O(n log n)** | **O(n log n)** |
 
-De esta manera, un mismo algoritmo puede utilizarse para organizar los datos de diferentes formas sin tener que crear un algoritmo de ordenamiento diferente para cada atributo.
+Bubble Sort, Selection Sort e Insertion Sort pueden presentar una complejidad de O(n²) en su caso promedio. Esto significa que, conforme aumenta la cantidad de jugadores, el número de operaciones necesarias puede crecer de manera cuadrática.
 
-Además, Merge Sort se utiliza correctamente mediante el proceso de dividir el arreglo, ordenar las partes y finalmente combinarlas en orden. En este avance se utiliza únicamente este algoritmo de ordenamiento.
+Por otro lado, Merge Sort mantiene una complejidad de O(n log n) en el mejor, promedio y peor caso. Esta característica es importante para el proyecto porque el algoritmo mantiene un comportamiento predecible incluso cuando los datos no se encuentran previamente ordenados.
+
+La diferencia puede observarse al comparar el crecimiento de ambas complejidades. Para una cantidad n de datos, un algoritmo O(n²) realiza un crecimiento cuadrático, mientras que un algoritmo O(n log n) tiene un crecimiento menor. Por ejemplo, si la cantidad de datos aumenta considerablemente, la diferencia entre ambas complejidades también aumenta. Por ello, aunque con pocos jugadores la diferencia de tiempo pueda ser pequeña, Merge Sort resulta más adecuado para un programa que puede manejar conjuntos de datos más grandes.
+
+Además, Merge Sort se adapta a la estructura del programa porque divide el arreglo en partes más pequeñas, ordena cada una de ellas y posteriormente las combina. En este proyecto, la función mergeSplit realiza la división recursiva y mergeArray combina las partes utilizando el atributo seleccionado por el usuario.
+
+Otra razón para utilizar este algoritmo es que no es necesario implementar un algoritmo diferente para cada atributo. El mismo Merge Sort puede ordenar por nombre, equipo, posición, edad, altura, puntos, rebotes o asistencias. El parámetro criterio determina qué atributo se utiliza durante las comparaciones, mientras que la estructura general del algoritmo permanece igual.
+
+Por lo tanto, la decisión de utilizar Merge Sort se fundamenta principalmente en su complejidad temporal O(n log n) en los tres casos y en su capacidad para reutilizar la misma lógica de ordenamiento con diferentes atributos. Esto permite que el programa cumpla con la necesidad de organizar los datos y, al mismo tiempo, tenga un algoritmo que pueda mantener un buen comportamiento al aumentar la cantidad de información.
