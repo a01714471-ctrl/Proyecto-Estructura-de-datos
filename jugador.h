@@ -1,8 +1,9 @@
+
 /*
  * jugador.h
  *
- *  Created on: 20/09/2026
- *      Author: Julio César Hdez.
+ * Created on: 20/09/2026
+ * Author: Julio Cesar Hdez.
  */
 
 #ifndef JUGADOR_H_
@@ -39,6 +40,8 @@ public:
 	double getAsistencias() const;
 
 	string toString() const;
+
+	friend ostream& operator<<(ostream&, const Jugador&);
 };
 
 Jugador::Jugador() {
@@ -111,6 +114,11 @@ string Jugador::toString() const {
 		<< asistencias;
 
 	return aux.str();
+}
+
+ostream& operator<<(ostream& salida, const Jugador& jugador) {
+	salida << jugador.toString();
+	return salida;
 }
 
 #endif /* JUGADOR_H_ */

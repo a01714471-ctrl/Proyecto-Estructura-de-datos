@@ -1,206 +1,170 @@
+
 /*
- * jugador.h
+ * sorts.h
  *
- *  Created on: 20/09/2026
- *      Author: Julio César Hdez.
+ * Created on: 20/09/2026
+ * Author: Julio Cesar Hdez.
  */
 
 #ifndef SORTS_H_
 #define SORTS_H_
 
+#include <iostream>
 #include <vector>
+#include "jugador.h"
+#include "queue.h"
 
 using namespace std;
 
 template <class T>
 class Sorts {
 private:
-	void copyArray(vector<T>&, vector<T>&, int, int);
-	void mergeArray(vector<T>&, vector<T>&, int, int, int, int);
-	void mergeSplit(vector<T>&, vector<T>&, int, int, int);
+
+
+    bool menorIgual(const T &jugador1, const T &jugador2, int criterio) {
+        if (criterio == 1) {
+            return jugador1.getNombre() <= jugador2.getNombre();
+        }
+        else if (criterio == 2) {
+            return jugador1.getEquipo() <= jugador2.getEquipo();
+        }
+        else if (criterio == 3) {
+            return jugador1.getPosicion() <= jugador2.getPosicion();
+        }
+        else if (criterio == 4) {
+            return jugador1.getEdad() <= jugador2.getEdad();
+        }
+        else if (criterio == 5) {
+            return jugador1.getAltura() <= jugador2.getAltura();
+        }
+        else if (criterio == 6) {
+            return jugador1.getPuntos() <= jugador2.getPuntos();
+        }
+        else if (criterio == 7) {
+            return jugador1.getRebotes() <= jugador2.getRebotes();
+        }
+        else {
+            return jugador1.getAsistencias() <= jugador2.getAsistencias();
+        }
+    }
+
+    // Combina dos mitades ordenadas
+    // Mejor caso: O(n)
+    // Caso promedio: O(n)
+    // Peor caso: O(n)
+    void mergeArray(vector<T> &datos, int inicio, int mitad,
+                    int fin, int criterio) {
+        vector<T> temporal(fin - inicio + 1); // O(n)
+
+        int indiceIzquierdo = inicio; // O(1)
+        int indiceDerecho = mitad + 1; // O(1)
+        int indiceTemporal = 0; // O(1)
+
+        // Compara y copia elementos de ambas mitades
+        while (indiceIzquierdo <= mitad && indiceDerecho <= fin) { // O(n)
+            if (menorIgual(datos[indiceIzquierdo],
+                           datos[indiceDerecho], criterio)) { // O(1)
+                temporal[indiceTemporal] = datos[indiceIzquierdo]; // O(1)
+                indiceIzquierdo++; // O(1)
+            }
+            else {
+                temporal[indiceTemporal] = datos[indiceDerecho]; // O(1)
+                indiceDerecho++; // O(1)
+            }
+
+            indiceTemporal++; // O(1)
+        }
+
+        // Copia los elementos restantes de la mitad izquierda
+        while (indiceIzquierdo <= mitad) { // O(n)
+            temporal[indiceTemporal] = datos[indiceIzquierdo]; // O(1)
+            indiceIzquierdo++; // O(1)
+            indiceTemporal++; // O(1)
+        }
+
+        // Copia los elementos restantes de la mitad derecha
+        while (indiceDerecho <= fin) { // O(n)
+            temporal[indiceTemporal] = datos[indiceDerecho]; // O(1)
+            indiceDerecho++; // O(1)
+            indiceTemporal++; // O(1)
+        }
+
+        // Regresa los elementos ordenados al vector original
+        for (int i = 0; i < (int)temporal.size(); i++) { // O(n)
+            datos[inicio + i] = temporal[i]; // O(1)
+        }
+    }
+
+    // Divide el vector y ordena recursivamente sus mitades
+    // Mejor caso: O(n log n)
+    // Caso promedio: O(n log n)
+    // Peor caso: O(n log n)
+    void mergeSplit(vector<T> &datos, int inicio, int fin, int criterio) {
+        if (inicio >= fin) { // O(1)
+            return; // O(1)
+        }
+
+        int mitad = inicio + (fin - inicio) / 2; // O(1)
+
+        mergeSplit(datos, inicio, mitad, criterio); // O(n log n)
+        mergeSplit(datos, mitad + 1, fin, criterio); // O(n log n)
+
+        mergeArray(datos, inicio, mitad, fin, criterio); // O(n)
+    }
 
 public:
-	vector<T> mergeSort(const vector<T>&, int);
+
+    // Ordena un vector utilizando Merge Sort
+    // Mejor caso: O(n log n)
+    // Caso promedio: O(n log n)
+    // Peor caso: O(n log n)
+    vector<T> mergeSort(vector<T> datos, int criterio) {
+        if (datos.size() <= 1) { // O(1)
+            return datos; // O(n) por copia del vector
+        }
+
+        mergeSplit(datos, 0, (int)datos.size() - 1, criterio); // O(n log n)
+
+        return datos; // O(n) por copia del vector
+    }
+
+    // Ordena una fila convirtiendola a vector y regresando el resultado a otra fila
+    // Mejor caso: O(n log n)
+    // Caso promedio: O(n log n)
+    // Peor caso: O(n log n)
+    QueueList<T> mergeSort(const QueueList<T> &source, int criterio) {
+        QueueList<T> copia(source); // O(n)
+
+        int cantidad = 0; // O(1)
+
+        // Cuenta los elementos de la fila
+        while (!copia.empty()) { // O(n)
+            cantidad++; // O(1)
+            copia.dequeue(); // O(1)
+        }
+
+        vector<T> datos; // O(1)
+
+        QueueList<T> copiaDatos(source); // O(n)
+
+        // Copia los elementos de la fila al vector
+        for (int i = 0; i < cantidad; i++) { // O(n)
+            datos.push_back(copiaDatos.front()); // O(1) amortizado
+            copiaDatos.dequeue(); // O(1)
+        }
+
+        // Ordena el vector
+        datos = mergeSort(datos, criterio); // O(n log n)
+
+        QueueList<T> resultado; // O(1)
+
+        // Copia los elementos ordenados a la fila de salida
+        for (int i = 0; i < (int)datos.size(); i++) { // O(n)
+            resultado.enqueue(datos[i]); // O(1)
+        }
+
+        return resultado; // O(n) por copia de la fila
+    }
 };
 
-/*
- * Mejor caso: O(1)
- * Caso promedio: O(n)
- * Peor caso: O(n)
- */
-template <class T>
-void Sorts<T>::copyArray(vector<T> &A, vector<T> &B,
-						 int low, int high) { // O(n)
-
-	for (int i = low; i <= high; i++) { // O(n)
-		A[i] = B[i]; // O(1)
-	}
-}
-
-/*
- * Mejor caso: O(n)
- * Caso promedio: O(n)
- * Peor caso: O(n)
- */
-template <class T>
-void Sorts<T>::mergeArray(vector<T> &A, vector<T> &B,
-						  int low, int mid, int high,
-						  int criterio) { // O(n)
-
-	int i_izquierda = low; // O(1)
-	int i_derecha = mid + 1; // O(1)
-	int i_ordenando = low; // O(1)
-
-	while (i_izquierda <= mid && i_derecha <= high) { // O(n)
-
-		bool izquierda = false; // O(1)
-
-		if (criterio == 1) { // O(1)
-
-			if (A[i_izquierda].getNombre() <=
-				A[i_derecha].getNombre()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 2) { // O(1)
-
-			if (A[i_izquierda].getEquipo() <=
-				A[i_derecha].getEquipo()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 3) { // O(1)
-
-			if (A[i_izquierda].getPosicion() <=
-				A[i_derecha].getPosicion()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 4) { // O(1)
-
-			if (A[i_izquierda].getEdad() <=
-				A[i_derecha].getEdad()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 5) { // O(1)
-
-			if (A[i_izquierda].getAltura() <=
-				A[i_derecha].getAltura()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 6) { // O(1)
-
-			if (A[i_izquierda].getPuntos() <=
-				A[i_derecha].getPuntos()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 7) { // O(1)
-
-			if (A[i_izquierda].getRebotes() <=
-				A[i_derecha].getRebotes()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		else if (criterio == 8) { // O(1)
-
-			if (A[i_izquierda].getAsistencias() <=
-				A[i_derecha].getAsistencias()) { // O(1)
-
-				izquierda = true; // O(1)
-			}
-		}
-
-		if (izquierda) { // O(1)
-
-			B[i_ordenando] = A[i_izquierda]; // O(1)
-			i_izquierda++; // O(1)
-
-		} else {
-
-			B[i_ordenando] = A[i_derecha]; // O(1)
-			i_derecha++; // O(1)
-		}
-
-		i_ordenando++; // O(1)
-	}
-
-	while (i_izquierda <= mid) { // O(n)
-
-		B[i_ordenando] = A[i_izquierda]; // O(1)
-		i_izquierda++; // O(1)
-		i_ordenando++; // O(1)
-	}
-
-	while (i_derecha <= high) { // O(n)
-
-		B[i_ordenando] = A[i_derecha]; // O(1)
-		i_derecha++; // O(1)
-		i_ordenando++; // O(1)
-	}
-
-	copyArray(A, B, low, high); // O(n)
-}
-
-/*
- * Mejor caso: O(n log n)
- * Caso promedio: O(n log n)
- * Peor caso: O(n log n)
- */
-template <class T>
-void Sorts<T>::mergeSplit(vector<T> &A, vector<T> &B,
-						  int low, int high,
-						  int criterio) { // O(n log n)
-
-	if (low < high) { // O(n log n)
-
-		int mitad = (low + high) / 2; // O(1)
-
-		// Ordenar la mitad izquierda del arreglo
-		mergeSplit(A, B, low, mitad, criterio); // O(log n)
-
-		// Ordenar la mitad derecha del arreglo
-		mergeSplit(A, B, mitad + 1, high, criterio); // O(log n)
-
-		// Mezclar en orden ambas mitades que ya están ordenadas
-		mergeArray(A, B, low, mitad, high, criterio); // O(n)
-	}
-}
-
-/*
- * Mejor caso: O(n log n)
- * Caso promedio: O(n log n)
- * Peor caso: O(n log n)
- */
-template <class T>
-vector<T> Sorts<T>::mergeSort(const vector<T> &source,
-							  int criterio) { // O(n log n)
-
-	vector<T> v(source); // O(n)
-	vector<T> tmp(v.size()); // O(n)
-
-	if (v.size() > 1) { // O(1)
-
-		mergeSplit(v, tmp, 0, v.size() - 1, criterio); // O(n log n)
-	}
-
-	return v; // O(1)
-}
-
-#endif /* SORTS_H_ */
+#endif
