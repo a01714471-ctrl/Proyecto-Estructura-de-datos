@@ -141,14 +141,32 @@ También se consideraron algoritmos como Bubble Sort, Selection Sort e Insertion
 
 #### Selecciona una estructura de datos adecuada al problema y la usa correctamente.
 
-Se implementaron `QueueList` y `QueueVector` para almacenar y manejar los registros de los jugadores. El programa principal utiliza principalmente `QueueList` para administrar la información y convertir los datos a un vector cuando es necesario realizar operaciones de ordenamiento y búsqueda.
+Para este proyecto se implementaron las estructuras de datos `QueueList` y `QueueVector`, considerando la necesidad de almacenar y organizar la información de los jugadores de la NBA.
+
+`QueueList` utiliza una lista enlazada para almacenar los registros, mientras que `QueueVector` utiliza un vector. Ambas estructuras permiten administrar los datos de los jugadores, aunque presentan diferencias en la forma de acceder a sus elementos y en el costo de sus operaciones.
+
+Se eligieron estas estructuras para trabajar con los registros y facilitar la integración de los algoritmos de ordenamiento y búsqueda. En el programa principal se utiliza principalmente `QueueList`, cuyos elementos se convierten a un vector cuando es necesario realizar estas operaciones.
+
+Desde el punto de vista de la complejidad, el acceso a un elemento por posición en un vector es O(1), mientras que recorrer una lista enlazada hasta una posición determinada puede requerir O(n). Por otro lado, insertar o eliminar elementos al inicio de una lista enlazada puede realizarse en O(1), mientras que estas operaciones en un vector pueden requerir desplazar elementos.
+
+Además, Merge Sort tiene una complejidad temporal de O(n log n), independientemente del orden inicial de los datos. La búsqueda binaria también tiene una complejidad de O(log n), siempre que los datos estén ordenados y se pueda acceder eficientemente a los elementos por posición. Por esta razón, el programa utiliza un vector para realizar las operaciones de ordenamiento y búsqueda.
+
+La elección de estas estructuras permite organizar los registros y utilizar los algoritmos implementados de acuerdo con las necesidades del programa. El análisis de complejidad de las estructuras y sus operaciones se encuentra documentado directamente en el código.
 
 ### SICT0303: Implementa acciones científicas
 
 #### Implementa mecanismos para consultar información de las estructuras correctos.
 
-Se implementaron mecanismos para mostrar, ordenar y buscar información de los jugadores. Para el ordenamiento se utiliza Merge Sort y para las búsquedas se implementaron las versiones iterativa y recursiva de búsqueda binaria.
+Se implementaron mecanismos para consultar y organizar la información de los jugadores de la NBA mediante las estructuras de datos `QueueList` y `QueueVector`.
+
+El programa permite mostrar todos los jugadores registrados y sus estadísticas, así como ordenar la información utilizando Merge Sort según cualquiera de los ocho atributos disponibles: nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias.
+
+También se implementaron dos métodos de búsqueda binaria: uno iterativo (`bs_seq`) y otro recursivo (`bs_rec`). Estos permiten localizar jugadores a partir del atributo seleccionado por el usuario. Antes de realizar la búsqueda, los datos se ordenan de acuerdo con el criterio correspondiente, ya que la búsqueda binaria requiere que los elementos estén ordenados.
+
+Con estas funcionalidades, el usuario puede consultar la información de manera organizada y encontrar jugadores sin tener que revisar manualmente todos los registros.
 
 #### Implementa mecanismos de lectura de archivos para cargar datos a las estructuras de manera correcta.
 
-Actualmente, los datos de los jugadores se encuentran definidos directamente en `main.cpp`. La lectura de información desde archivos queda como una mejora pendiente para futuras versiones del proyecto.
+Actualmente, los datos de los jugadores se encuentran definidos directamente en `main.cpp` y se cargan al iniciar el programa. Posteriormente, se almacenan en la estructura de datos utilizada para administrar la información.
+
+Aunque todavía no se implementa la lectura de archivos externos, el programa cuenta con una estructura modular que permitiría agregar esta funcionalidad en futuras versiones. Por ejemplo, se podría utilizar un archivo CSV para registrar los datos de los jugadores y leerlos mediante `ifstream`, facilitando la incorporación de nuevos registros sin modificar directamente el código fuente.
