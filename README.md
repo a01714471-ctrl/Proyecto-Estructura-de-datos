@@ -141,17 +141,11 @@ También se consideraron algoritmos como Bubble Sort, Selection Sort e Insertion
 
 #### Selecciona una estructura de datos adecuada al problema y la usa correctamente.
 
-Para este proyecto se implementaron las estructuras de datos `QueueList` y `QueueVector`, considerando la necesidad de almacenar y organizar la información de los jugadores de la NBA.
+Se implementaron las estructuras `QueueList` y `QueueVector` para almacenar y administrar la información de los jugadores de la NBA. El programa utiliza principalmente `QueueList` y convierte sus datos a un vector para realizar las operaciones de ordenamiento y búsqueda.
 
-`QueueList` utiliza una lista enlazada para almacenar los registros, mientras que `QueueVector` utiliza un vector. Ambas estructuras permiten administrar los datos de los jugadores, aunque presentan diferencias en la forma de acceder a sus elementos y en el costo de sus operaciones.
+Se consideraron las diferencias de complejidad entre ambas estructuras: el acceso por posición en un vector es O(1), mientras que en una lista enlazada puede ser O(n). Por ello, se utiliza un vector para facilitar el acceso a los elementos durante Merge Sort y la búsqueda binaria.
 
-Se eligieron estas estructuras para trabajar con los registros y facilitar la integración de los algoritmos de ordenamiento y búsqueda. En el programa principal se utiliza principalmente `QueueList`, cuyos elementos se convierten a un vector cuando es necesario realizar estas operaciones.
-
-Desde el punto de vista de la complejidad, el acceso a un elemento por posición en un vector es O(1), mientras que recorrer una lista enlazada hasta una posición determinada puede requerir O(n). Por otro lado, insertar o eliminar elementos al inicio de una lista enlazada puede realizarse en O(1), mientras que estas operaciones en un vector pueden requerir desplazar elementos.
-
-Además, Merge Sort tiene una complejidad temporal de O(n log n), independientemente del orden inicial de los datos. La búsqueda binaria también tiene una complejidad de O(log n), siempre que los datos estén ordenados y se pueda acceder eficientemente a los elementos por posición. Por esta razón, el programa utiliza un vector para realizar las operaciones de ordenamiento y búsqueda.
-
-La elección de estas estructuras permite organizar los registros y utilizar los algoritmos implementados de acuerdo con las necesidades del programa. El análisis de complejidad de las estructuras y sus operaciones se encuentra documentado directamente en el código.
+El análisis de complejidad de las estructuras de datos y sus operaciones se encuentra documentado directamente en el código.
 
 ### SICT0303: Implementa acciones científicas
 
