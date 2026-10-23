@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
 #include "jugador.h"
 #include "queue.h"
 #include "sorts.h"
@@ -26,6 +28,91 @@ vector<Jugador> colaAVector(const QueueList<Jugador> &cola) {
     }
 
     return datos;
+}
+
+// Lee los jugadores desde un archivo de texto
+bool cargarJugadores(const string &nombreArchivo,
+                     QueueList<Jugador> &jugadores) {
+    ifstream archivo(nombreArchivo);
+    string linea;
+    int numeroLinea = 0;
+    int jugadoresCargados = 0;
+
+    if (!archivo.is_open()) {
+        cout << "Error: no se pudo abrir el archivo "
+             << nombreArchivo << "." << endl;
+        return false;
+    }
+
+    while (getline(archivo, linea)) {
+        numeroLinea++;
+
+        if (linea.empty()) {
+            continue;
+        }
+
+        stringstream flujo(linea);
+        string campos[8];
+
+        // Separa los ocho campos utilizando punto y coma
+        for (int i = 0; i < 8; i++) {
+            if (!getline(flujo, campos[i], ';')) {
+                cout << "Registro incompleto en la linea "
+                     << numeroLinea << ". Se omitira." << endl;
+                break;
+            }
+        }
+
+        // Verifica que la linea contenga los ocho campos
+        bool registroValido = true;
+
+        for (int i = 0; i < 8; i++) {
+            if (campos[i].empty()) {
+                registroValido = false;
+            }
+        }
+
+        // Revisa si existen campos adicionales
+        string campoExtra;
+        if (registroValido && getline(flujo, campoExtra, ';')) {
+            registroValido = false;
+        }
+
+        if (!registroValido) {
+            cout << "Registro invalido en la linea "
+                 << numeroLinea << ". Se omitira." << endl;
+            continue;
+        }
+
+        try {
+            string nombre = campos[0];
+            string equipo = campos[1];
+            string posicion = campos[2];
+
+            int edad = stoi(campos[3]);
+            int altura = stoi(campos[4]);
+            double puntos = stod(campos[5]);
+            double rebotes = stod(campos[6]);
+            double asistencias = stod(campos[7]);
+
+            jugadores.enqueue(
+                Jugador(nombre, equipo, posicion, edad, altura,
+                        puntos, rebotes, asistencias)
+            );
+
+            jugadoresCargados++;
+        }
+        catch (const exception &) {
+            cout << "Error en los datos numericos de la linea "
+                 << numeroLinea << ". Se omitira." << endl;
+        }
+    }
+
+    archivo.close();
+
+    cout << "Jugadores cargados: " << jugadoresCargados << endl;
+
+    return jugadoresCargados > 0;
 }
 
 void mostrarEncabezado() {
@@ -51,7 +138,8 @@ void mostrarFila(const Jugador &jugador) {
          << right
          << setw(7)  << jugador.getEdad()
          << setw(9)  << jugador.getAltura()
-         << setw(10) << fixed << setprecision(1) << jugador.getPuntos()
+         << setw(10) << fixed << setprecision(1)
+         << jugador.getPuntos()
          << setw(10) << jugador.getRebotes()
          << setw(13) << jugador.getAsistencias() << endl;
 }
@@ -76,17 +164,12 @@ int main() {
     QueueList<Jugador> jugadores;
     Sorts<Jugador> sorts;
 
-    // Registro inicial de jugadores
-    jugadores.enqueue(Jugador("LeBron James", "Lakers", "F", 41, 206, 25.0, 7.0, 8.0));
-    jugadores.enqueue(Jugador("Stephen Curry", "Warriors", "G", 38, 188, 24.5, 4.5, 6.2));
-    jugadores.enqueue(Jugador("Nikola Jokic", "Nuggets", "C", 31, 211, 27.1, 12.4, 9.0));
-    jugadores.enqueue(Jugador("Luka Doncic", "Lakers", "G", 27, 201, 28.4, 8.7, 8.2));
-    jugadores.enqueue(Jugador("Giannis Antetokounmpo", "Heat", "F", 31, 211, 30.2, 11.8, 6.5));
-    jugadores.enqueue(Jugador("Jayson Tatum", "Celtics", "F", 28, 203, 27.0, 8.8, 5.9));
-    jugadores.enqueue(Jugador("Kevin Durant", "Rockets", "F", 37, 208, 26.8, 6.9, 4.8));
-    jugadores.enqueue(Jugador("Anthony Edwards", "Timberwolves", "G", 25, 193, 27.6, 5.2, 4.5));
-    jugadores.enqueue(Jugador("Bam Adebayo", "Heat", "C", 32, 213, 28.7, 11.1, 4.2));
-    jugadores.enqueue(Jugador("Shai Gilgeous-Alexander", "Thunder", "G", 28, 198, 31.0, 5.4, 6.3));
+    // Carga inicial de jugadores desde el archivo
+    if (!cargarJugadores("jugadores.txt", jugadores)) {
+        cout << "No se pudieron cargar los jugadores. "
+             << "Verifica el archivo." << endl;
+        return 1;
+    }
 
     int opcion;
 
@@ -154,7 +237,9 @@ int main() {
 
                 vector<Jugador> datos = colaAVector(jugadores);
 
-                int indice = bs_rec(datos, datos.size(), criterio, valor);
+                int indice = bs_rec(
+                    datos, datos.size(), criterio, valor
+                );
 
                 if (indice != -1) {
                     cout << "\nJugador encontrado:" << endl;
@@ -162,7 +247,8 @@ int main() {
                     mostrarFila(datos[indice]);
                 }
                 else {
-                    cout << "No se encontro un jugador con ese valor." << endl;
+                    cout << "No se encontro un jugador con ese valor."
+                         << endl;
                 }
             }
             else {
