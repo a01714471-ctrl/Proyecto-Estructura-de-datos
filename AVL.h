@@ -1,7 +1,8 @@
 /*
  * AVL.h
  *
- * Adaptado para el proyecto NBA
+ * Created on: 15/11/2026
+ * Author: Julio Cesar Hdez.
  */
 
 #ifndef AVL_H_
@@ -69,7 +70,7 @@ template <class T>
 Node<T>::Node(T val, Node<T> *le, Node<T> *ri, int lev, int bal)
     : value(val), left(le), right(ri), level(lev), balance(bal) {}
 
-// Compara jugadores seg˙n el criterio seleccionado.
+// Compara jugadores seg√∫n el criterio seleccionado.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -164,10 +165,10 @@ void Node<T>::actualizar() {
     balance = le - ri; // O(1)
 }
 
-// Inserta un jugador en el ·rbol.
-// Mejor caso: O(1), cuando se inserta como raÌz o se encuentra una clave repetida.
+// Inserta un jugador en el √°rbol.
+// Mejor caso: O(1), cuando se inserta como ra√≠z o se encuentra una clave repetida.
 // Caso promedio: O(log n).
-// Peor caso: O(log n), porque el ·rbol AVL permanece balanceado.
+// Peor caso: O(log n), porque el √°rbol AVL permanece balanceado.
 template <class T>
 Node<T>* Node<T>::add(T val, int criterio) {
 
@@ -193,10 +194,10 @@ Node<T>* Node<T>::add(T val, int criterio) {
     return balance_tree(); // O(1)
 }
 
-// Busca una clave en el ·rbol.
-// Mejor caso: O(1), cuando la clave est· en la raÌz.
+// Busca una clave en el √°rbol.
+// Mejor caso: O(1), cuando la clave est√° en la ra√≠z.
 // Caso promedio: O(log n).
-// Peor caso: O(log n), porque el ·rbol AVL permanece balanceado.
+// Peor caso: O(log n), porque el √°rbol AVL permanece balanceado.
 template <class T>
 bool Node<T>::find(T val, int criterio) const {
 
@@ -240,10 +241,10 @@ vector<T> Node<T>::search(T val, int criterio) const {
     return jugadores; // O(1)
 }
 
-// Extrae el nodo con mayor valor del sub·rbol.
+// Extrae el nodo con mayor valor del sub√°rbol.
 // Mejor caso: O(1), cuando el nodo no tiene hijo derecho.
 // Caso promedio: O(log n).
-// Peor caso: O(log n), por la altura del ·rbol AVL.
+// Peor caso: O(log n), por la altura del √°rbol AVL.
 template <class T>
 Node<T>* Node<T>::removeMax(Node<T>*& nodo) {
 
@@ -260,8 +261,8 @@ Node<T>* Node<T>::removeMax(Node<T>*& nodo) {
     return aux; // O(1)
 }
 
-// Elimina un jugador especÌfico.
-// Buscar la clave en el ·rbol: O(log n).
+// Elimina un jugador espec√≠fico.
+// Buscar la clave en el √°rbol: O(log n).
 // Buscar un jugador dentro de los repetidos: O(n).
 // Rebalancear el camino recorrido: O(log n).
 template <class T>
@@ -405,7 +406,7 @@ void Node<T>::preorder(stringstream &aux) const {
     }
 }
 
-// Calcula la altura almacenada del ·rbol.
+// Calcula la altura almacenada del √°rbol.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -416,10 +417,10 @@ int Node<T>::max_depth() {
     return level; // O(1)
 }
 
-// Balancea el ·rbol.
-// Mejor caso: O(1), si no se necesita una rotaciÛn.
+// Balancea el √°rbol.
+// Mejor caso: O(1), si no se necesita una rotaci√≥n.
 // Caso promedio: O(1).
-// Peor caso: O(1), porque realiza como m·ximo una rotaciÛn simple o doble.
+// Peor caso: O(1), porque realiza como m√°ximo una rotaci√≥n simple o doble.
 template <class T>
 Node<T>* Node<T>::balance_tree() {
 
@@ -444,7 +445,7 @@ Node<T>* Node<T>::balance_tree() {
     return this; // O(1)
 }
 
-// RotaciÛn izquierda.
+// Rotaci√≥n izquierda.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -462,7 +463,7 @@ Node<T>* Node<T>::rot_left(Node<T>* a) {
     return b; // O(1)
 }
 
-// RotaciÛn derecha.
+// Rotaci√≥n derecha.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -480,7 +481,7 @@ Node<T>* Node<T>::rot_right(Node<T>* a) {
     return b; // O(1)
 }
 
-// RotaciÛn izquierda-derecha.
+// Rotaci√≥n izquierda-derecha.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -491,7 +492,7 @@ Node<T>* Node<T>::rot_left_right(Node<T>* a) {
     return rot_right(a); // O(1)
 }
 
-// RotaciÛn derecha-izquierda.
+// Rotaci√≥n derecha-izquierda.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -531,7 +532,7 @@ template <class T>
 AVL<T>::AVL(int criterio) : root(0), criterio(criterio) {}
 
 // Destructor.
-// Mejor caso: O(1), cuando el ·rbol est· vacÌo.
+// Mejor caso: O(1), cuando el √°rbol est√° vac√≠o.
 // Caso promedio: O(n).
 // Peor caso: O(n), porque elimina todos los nodos.
 template <class T>
@@ -539,7 +540,7 @@ AVL<T>::~AVL() {
     removeAll(); // O(n)
 }
 
-// Comprueba si est· vacÌo.
+// Comprueba si est√° vac√≠o.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -550,9 +551,9 @@ bool AVL<T>::empty() const {
 }
 
 // Inserta un jugador.
-// Mejor caso: O(1), cuando el ·rbol est· vacÌo.
+// Mejor caso: O(1), cuando el √°rbol est√° vac√≠o.
 // Caso promedio: O(log n).
-// Peor caso: O(log n), por la altura del ·rbol AVL.
+// Peor caso: O(log n), por la altura del √°rbol AVL.
 template <class T>
 void AVL<T>::add(T val) {
 
@@ -564,9 +565,9 @@ void AVL<T>::add(T val) {
 }
 
 // Busca una clave.
-// Mejor caso: O(1), cuando la clave est· en la raÌz.
+// Mejor caso: O(1), cuando la clave est√° en la ra√≠z.
 // Caso promedio: O(log n).
-// Peor caso: O(log n), por la altura del ·rbol AVL.
+// Peor caso: O(log n), por la altura del √°rbol AVL.
 template <class T>
 bool AVL<T>::find(T val) const {
 
@@ -591,19 +592,19 @@ vector<T> AVL<T>::search(T val) const {
 }
 
 // Elimina un jugador.
-// Buscar la clave en el ·rbol: O(log n).
+// Buscar la clave en el √°rbol: O(log n).
 // Buscar un jugador dentro de los repetidos: O(n).
 // Rebalancear el camino recorrido: O(log n).
 template <class T>
 void AVL<T>::remove(T val) {
 
     if (root != 0) {
-        root = root->remove(val, criterio); // O(log n), m·s la b˙squeda O(n) entre repetidos
+        root = root->remove(val, criterio); // O(log n), m√°s la b√∫squeda O(n) entre repetidos
     }
 }
 
 // Elimina todos los nodos.
-// Mejor caso: O(1), cuando el ·rbol est· vacÌo.
+// Mejor caso: O(1), cuando el √°rbol est√° vac√≠o.
 // Caso promedio: O(n).
 // Peor caso: O(n), porque se libera cada nodo.
 template <class T>
