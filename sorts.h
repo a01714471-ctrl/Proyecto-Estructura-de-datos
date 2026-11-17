@@ -1,4 +1,3 @@
-
 /*
  * sorts.h
  *
@@ -9,162 +8,184 @@
 #ifndef SORTS_H_
 #define SORTS_H_
 
-#include <iostream>
 #include <vector>
 #include "jugador.h"
-#include "queue.h"
 
 using namespace std;
 
 template <class T>
 class Sorts {
 private:
-
-
-    bool menorIgual(const T &jugador1, const T &jugador2, int criterio) {
-        if (criterio == 1) {
-            return jugador1.getNombre() <= jugador2.getNombre();
-        }
-        else if (criterio == 2) {
-            return jugador1.getEquipo() <= jugador2.getEquipo();
-        }
-        else if (criterio == 3) {
-            return jugador1.getPosicion() <= jugador2.getPosicion();
-        }
-        else if (criterio == 4) {
-            return jugador1.getEdad() <= jugador2.getEdad();
-        }
-        else if (criterio == 5) {
-            return jugador1.getAltura() <= jugador2.getAltura();
-        }
-        else if (criterio == 6) {
-            return jugador1.getPuntos() <= jugador2.getPuntos();
-        }
-        else if (criterio == 7) {
-            return jugador1.getRebotes() <= jugador2.getRebotes();
-        }
-        else {
-            return jugador1.getAsistencias() <= jugador2.getAsistencias();
-        }
-    }
-
-    // Combina dos mitades ordenadas
-    // Mejor caso: O(n)
-    // Caso promedio: O(n)
-    // Peor caso: O(n)
-    void mergeArray(vector<T> &datos, int inicio, int mitad,
-                    int fin, int criterio) {
-        vector<T> temporal(fin - inicio + 1); // O(n)
-
-        int indiceIzquierdo = inicio; // O(1)
-        int indiceDerecho = mitad + 1; // O(1)
-        int indiceTemporal = 0; // O(1)
-
-        // Compara y copia elementos de ambas mitades
-        while (indiceIzquierdo <= mitad && indiceDerecho <= fin) { // O(n)
-            if (menorIgual(datos[indiceIzquierdo],
-                           datos[indiceDerecho], criterio)) { // O(1)
-                temporal[indiceTemporal] = datos[indiceIzquierdo]; // O(1)
-                indiceIzquierdo++; // O(1)
-            }
-            else {
-                temporal[indiceTemporal] = datos[indiceDerecho]; // O(1)
-                indiceDerecho++; // O(1)
-            }
-
-            indiceTemporal++; // O(1)
-        }
-
-        // Copia los elementos restantes de la mitad izquierda
-        while (indiceIzquierdo <= mitad) { // O(n)
-            temporal[indiceTemporal] = datos[indiceIzquierdo]; // O(1)
-            indiceIzquierdo++; // O(1)
-            indiceTemporal++; // O(1)
-        }
-
-        // Copia los elementos restantes de la mitad derecha
-        while (indiceDerecho <= fin) { // O(n)
-            temporal[indiceTemporal] = datos[indiceDerecho]; // O(1)
-            indiceDerecho++; // O(1)
-            indiceTemporal++; // O(1)
-        }
-
-        // Regresa los elementos ordenados al vector original
-        for (int i = 0; i < (int)temporal.size(); i++) { // O(n)
-            datos[inicio + i] = temporal[i]; // O(1)
-        }
-    }
-
-    // Divide el vector y ordena recursivamente sus mitades
-    // Mejor caso: O(n log n)
-    // Caso promedio: O(n log n)
-    // Peor caso: O(n log n)
-    void mergeSplit(vector<T> &datos, int inicio, int fin, int criterio) {
-        if (inicio >= fin) { // O(1)
-            return; // O(1)
-        }
-
-        int mitad = inicio + (fin - inicio) / 2; // O(1)
-
-        mergeSplit(datos, inicio, mitad, criterio); // O(n log n)
-        mergeSplit(datos, mitad + 1, fin, criterio); // O(n log n)
-
-        mergeArray(datos, inicio, mitad, fin, criterio); // O(n)
-    }
+    void copyArray(vector<T>&, vector<T>&, int, int);
+    void mergeArray(vector<T>&, vector<T>&, int, int, int, int);
+    void mergeSplit(vector<T>&, vector<T>&, int, int, int);
+    int comparar(T, T, int);
 
 public:
-
-    // Ordena un vector utilizando Merge Sort
-    // Mejor caso: O(n log n)
-    // Caso promedio: O(n log n)
-    // Peor caso: O(n log n)
-    vector<T> mergeSort(vector<T> datos, int criterio) {
-        if (datos.size() <= 1) { // O(1)
-            return datos; // O(n) por copia del vector
-        }
-
-        mergeSplit(datos, 0, (int)datos.size() - 1, criterio); // O(n log n)
-
-        return datos; // O(n) por copia del vector
-    }
-
-    // Ordena una fila convirtiendola a vector y regresando el resultado a otra fila
-    // Mejor caso: O(n log n)
-    // Caso promedio: O(n log n)
-    // Peor caso: O(n log n)
-    QueueList<T> mergeSort(const QueueList<T> &source, int criterio) {
-        QueueList<T> copia(source); // O(n)
-
-        int cantidad = 0; // O(1)
-
-        // Cuenta los elementos de la fila
-        while (!copia.empty()) { // O(n)
-            cantidad++; // O(1)
-            copia.dequeue(); // O(1)
-        }
-
-        vector<T> datos; // O(1)
-
-        QueueList<T> copiaDatos(source); // O(n)
-
-        // Copia los elementos de la fila al vector
-        for (int i = 0; i < cantidad; i++) { // O(n)
-            datos.push_back(copiaDatos.front()); // O(1) amortizado
-            copiaDatos.dequeue(); // O(1)
-        }
-
-        // Ordena el vector
-        datos = mergeSort(datos, criterio); // O(n log n)
-
-        QueueList<T> resultado; // O(1)
-
-        // Copia los elementos ordenados a la fila de salida
-        for (int i = 0; i < (int)datos.size(); i++) { // O(n)
-            resultado.enqueue(datos[i]); // O(1)
-        }
-
-        return resultado; // O(n) por copia de la fila
-    }
+    vector<T> mergeSort(const vector<T>&, int);
 };
 
-#endif
+// Compara dos jugadores según el criterio.
+// Mejor caso: O(1).
+// Caso promedio: O(1).
+// Peor caso: O(1).
+template <class T>
+int Sorts<T>::comparar(T jugador1, T jugador2, int criterio) {
+
+    // El switch selecciona un criterio en tiempo constante.
+    switch (criterio) {
+        case 1:
+            if (jugador1.getNombre() < jugador2.getNombre()) return -1;
+            if (jugador1.getNombre() > jugador2.getNombre()) return 1;
+            break;
+
+        case 2:
+            if (jugador1.getEquipo() < jugador2.getEquipo()) return -1;
+            if (jugador1.getEquipo() > jugador2.getEquipo()) return 1;
+            break;
+
+        case 3:
+            if (jugador1.getPosicion() < jugador2.getPosicion()) return -1;
+            if (jugador1.getPosicion() > jugador2.getPosicion()) return 1;
+            break;
+
+        case 4:
+            if (jugador1.getEdad() < jugador2.getEdad()) return -1;
+            if (jugador1.getEdad() > jugador2.getEdad()) return 1;
+            break;
+
+        case 5:
+            if (jugador1.getAltura() < jugador2.getAltura()) return -1;
+            if (jugador1.getAltura() > jugador2.getAltura()) return 1;
+            break;
+
+        case 6:
+            if (jugador1.getPuntos() < jugador2.getPuntos()) return -1;
+            if (jugador1.getPuntos() > jugador2.getPuntos()) return 1;
+            break;
+
+        case 7:
+            if (jugador1.getRebotes() < jugador2.getRebotes()) return -1;
+            if (jugador1.getRebotes() > jugador2.getRebotes()) return 1;
+            break;
+
+        case 8:
+            if (jugador1.getAsistencias() < jugador2.getAsistencias()) return -1;
+            if (jugador1.getAsistencias() > jugador2.getAsistencias()) return 1;
+            break;
+    }
+
+    return 0;
+}
+
+// Copia los elementos del arreglo auxiliar.
+// Mejor caso: O(n).
+// Caso promedio: O(n).
+// Peor caso: O(n).
+template <class T>
+void Sorts<T>::copyArray(vector<T>& A, vector<T>& B,
+                         int low, int high) {
+
+    // Recorre todos los elementos del segmento.
+    for (int i = low; i <= high; i++) { // O(n)
+        A[i] = B[i]; // O(1)
+    }
+}
+
+// Mezcla dos mitades ordenadas.
+// Mejor caso: O(n).
+// Caso promedio: O(n).
+// Peor caso: O(n).
+template <class T>
+void Sorts<T>::mergeArray(vector<T>& A, vector<T>& B,
+                          int low, int mid, int high,
+                          int criterio) {
+
+    int i_izquierda = low;
+    int i_derecha = mid + 1;
+    int i_ordenando = low;
+
+    // Compara y coloca elementos de ambas mitades.
+    // En total, cada elemento se procesa una vez: O(n).
+    while (i_izquierda <= mid && i_derecha <= high) { // O(n)
+
+        // Comparar dos jugadores: O(1).
+        if (comparar(A[i_izquierda], A[i_derecha], criterio) <= 0) {
+            B[i_ordenando] = A[i_izquierda]; // O(1)
+            i_izquierda++;
+        } else {
+            B[i_ordenando] = A[i_derecha]; // O(1)
+            i_derecha++;
+        }
+
+        i_ordenando++;
+    }
+
+    // Copia los elementos restantes de la mitad izquierda.
+    while (i_izquierda <= mid) { // O(n)
+        B[i_ordenando] = A[i_izquierda]; // O(1)
+        i_izquierda++;
+        i_ordenando++;
+    }
+
+    // Copia los elementos restantes de la mitad derecha.
+    while (i_derecha <= high) { // O(n)
+        B[i_ordenando] = A[i_derecha]; // O(1)
+        i_derecha++;
+        i_ordenando++;
+    }
+
+    // Copiar el segmento ordenado: O(n).
+    copyArray(A, B, low, high);
+}
+
+// Divide recursivamente el arreglo.
+// Mejor caso: O(n log n).
+// Caso promedio: O(n log n).
+// Peor caso: O(n log n).
+// Espacio auxiliar: O(log n) por la recursión.
+template <class T>
+void Sorts<T>::mergeSplit(vector<T>& A, vector<T>& B,
+                          int low, int high, int criterio) {
+
+    if (low < high) { // O(1)
+
+        int mitad = (low + high) / 2; // O(1)
+
+        // Ordenar la mitad izquierda.
+        mergeSplit(A, B, low, mitad, criterio);
+
+        // Ordenar la mitad derecha.
+        mergeSplit(A, B, mitad + 1, high, criterio);
+
+        // Mezclar las mitades ordenadas: O(n).
+        mergeArray(A, B, low, mitad, high, criterio);
+    }
+}
+
+// Ordena el arreglo mediante Merge Sort.
+// Mejor caso: O(n log n).
+// Caso promedio: O(n log n).
+// Peor caso: O(n log n).
+// Espacio auxiliar: O(n) por los vectores utilizados.
+template <class T>
+vector<T> Sorts<T>::mergeSort(const vector<T>& source,
+                              int criterio) {
+
+    // Copiar el arreglo original: O(n).
+    vector<T> v(source);
+
+    // Crear el vector auxiliar: O(n).
+    vector<T> tmp(v.size());
+
+    // Verificar si el vector contiene elementos: O(1).
+    if (!v.empty()) {
+
+        // Ordenar mediante Merge Sort: O(n log n).
+        mergeSplit(v, tmp, 0, v.size() - 1, criterio);
+    }
+
+    return v; // O(1) al retornar por movimiento en condiciones habituales.
+}
+
+#endif /* SORTS_H_ */
