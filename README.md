@@ -1,214 +1,226 @@
-# Sistema de consulta y organización de estadísticas de jugadores de la NBA
+# Sistema de consulta y administración de estadísticas de jugadores de la NBA
 
-## Descripción del avance 1
+Este proyecto consiste en un programa desarrollado en C++ que permite administrar y consultar información de jugadores de la NBA. Para ello, se utiliza un archivo de texto que contiene los registros de los jugadores y diferentes estructuras de datos y algoritmos para organizar y consultar la información de manera eficiente.
 
-En el primer avance se desarrolló un programa para consultar y organizar información de jugadores de la NBA. Se creó la clase `Jugador` para almacenar diferentes atributos de cada jugador, como:
+Cada jugador cuenta con los siguientes atributos: nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias.
 
-- Nombre
-- Equipo
-- Posición
-- Edad
-- Altura
-- Puntos
-- Rebotes
-- Asistencias
+El programa permite realizar las siguientes operaciones:
 
-La información se almacenaba en un `vector<Jugador>`. El programa permitía mostrar los datos y ordenarlos utilizando diferentes atributos.
+- Mostrar los jugadores registrados.
+- Ordenar a los jugadores por nombre, equipo, posición, edad, altura, puntos, rebotes o asistencias.
+- Consultar jugadores mediante búsquedas.
+- Organizar y consultar jugadores utilizando un árbol AVL.
+- Agregar y eliminar jugadores de las estructuras correspondientes.
+- Guardar y cargar la información mediante archivos de texto.
 
-Para realizar el ordenamiento se implementó el algoritmo **Merge Sort**, mediante una clase `Sorts<T>`. Este algoritmo permite ordenar a los jugadores por cualquiera de los ocho atributos disponibles.
+## SICT0302B: Toma decisiones
 
-El programa se dividió en archivos para mantener una estructura modular:
+### Selecciona y usa una estructura de datos adecuada al problema
 
-- `main.cpp`: contiene el menú principal y la interacción con el usuario.
-- `jugador.h`: contiene la clase `Jugador`, sus atributos, constructores, getters y el método `toString()`.
-- `sorts.h`: contiene la implementación de Merge Sort y la lógica para ordenar a los jugadores según el criterio seleccionado.
+Para almacenar y administrar los jugadores utilicé una cola implementada mediante una lista (`QueueList<Jugador>`). Elegí esta estructura porque permite agregar jugadores al final y retirar elementos del inicio de manera eficiente. Además, permite conservar los registros y recorrerlos cuando se necesita mostrar o procesar la información.
 
-## Descripción del avance 2
+Las operaciones principales de la cola son:
 
-En el segundo avance se agregaron nuevas funcionalidades para mejorar la organización y consulta de la información.
+- `enqueue`: agrega un jugador al final de la cola.
+- `dequeue`: elimina el jugador que se encuentra al inicio.
+- `front`: permite consultar el primer jugador.
+- `empty`: verifica si la cola está vacía.
+- `clear`: elimina todos los elementos.
 
-Se implementaron las estructuras de datos `QueueList` y `QueueVector`, así como los algoritmos de búsqueda binaria iterativa y recursiva. También se integró un menú que permite mostrar, ordenar y buscar jugadores según sus diferentes atributos.
+Estas operaciones se encuentran implementadas en el archivo `queue.h`.
 
-El programa utiliza principalmente `QueueList` para administrar los registros y convierte los datos a un vector cuando necesita realizar operaciones de ordenamiento o búsqueda.
+Adicionalmente, utilicé un árbol AVL para organizar a los jugadores de acuerdo con un criterio seleccionado. Elegí esta estructura porque mantiene el árbol balanceado mediante rotaciones, evitando que las operaciones de búsqueda, inserción y eliminación se degraden cuando los datos se encuentran desordenados.
 
-Además, se incorporó la lectura de datos desde un archivo de texto externo, lo que permite separar la información de los jugadores del código fuente y facilita la actualización de los registros.
+El árbol permite manejar jugadores con valores repetidos mediante un vector dentro de cada nodo, por lo que varios jugadores pueden compartir el mismo valor del criterio seleccionado.
 
-### Cambios sobre el primer avance
+Esta implementación se encuentra en el archivo `AVL.h`.
 
-- Se agregaron las estructuras de datos `QueueList` y `QueueVector`.
-- Se implementaron los algoritmos de búsqueda binaria iterativa y recursiva.
-- Se agregó una opción para buscar jugadores por sus atributos.
-- Se integraron las funcionalidades de ordenamiento y búsqueda en el menú principal.
-- Se documentó el análisis de complejidad directamente en el código.
-- Se implementó la lectura de jugadores desde el archivo `jugadores.txt`.
-- Se agregó la validación de los registros leídos para identificar problemas de formato.
-- Se eliminó la necesidad de registrar manualmente cada jugador dentro de `main.cpp`.
-  
-Descripción de los archivos:
+### Selecciona un algoritmo de ordenamiento adecuado al problema y lo usa correctamente
 
-- `main.cpp`: contiene el menú principal, las funciones para mostrar los jugadores y la interacción con el usuario. También inicia la carga de los datos desde el archivo de texto.
-- `jugador.h`: contiene la clase `Jugador` y los métodos para consultar y mostrar sus atributos.
-- `sorts.h`: contiene la implementación de Merge Sort.
-- `queue.h`: contiene las clases `Queue`, `QueueList` y `QueueVector`.
-- `busquedas.h`: contiene los algoritmos de búsqueda binaria iterativa y recursiva.
-- `jugadores.txt`: contiene los registros de los jugadores y sus estadísticas.
+Para ordenar a los jugadores utilicé el algoritmo Merge Sort. Elegí este algoritmo porque mantiene una complejidad de O(n log n) en el mejor, promedio y peor caso, lo que permite ordenar eficientemente los registros incluso cuando los datos inicialmente se encuentran desordenados.
 
-## Lectura de datos desde un archivo de texto
+El algoritmo permite ordenar los jugadores de manera ascendente o descendente utilizando cualquiera de los ocho atributos disponibles:
 
-Para facilitar la administración de la información, se implementó la función `cargarJugadores()`, que obtiene los datos de los jugadores desde `jugadores.txt`.
+- Nombre.
+- Equipo.
+- Posición.
+- Edad.
+- Altura.
+- Puntos.
+- Rebotes.
+- Asistencias.
 
-Esta función utiliza las herramientas de manejo de archivos de C++, abre el archivo, lee cada línea y separa sus campos. Posteriormente, convierte los valores numéricos a sus tipos correspondientes, crea los objetos `Jugador` y los agrega a la cola mediante `enqueue()`.
+La implementación se encuentra en el archivo `sorts.h`, específicamente en las funciones `mergeSort`, `mergeSplit` y `mergeArray`.
 
-De esta manera, los datos se cargan automáticamente al iniciar el programa, sin necesidad de escribir cada registro directamente en `main.cpp`.
+## SICT0301B: Evalúa los componentes
 
-### Formato de los registros
+### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa
+Los análisis de complejidad se encuentran como comentarios en los códigos.
 
-El archivo debe contener un jugador por línea. Los campos se separan mediante punto y coma (`;`) y deben aparecer en el siguiente orden:
+#### Merge Sort
 
-`Nombre;Equipo;Posición;Edad;Altura;Puntos;Rebotes;Asistencias`
+El programa utiliza Merge Sort para ordenar los jugadores según el criterio seleccionado.
 
-Los registros deben contener los ocho campos requeridos y respetar el orden establecido. La función de carga verifica el formato y utiliza los valores leídos para construir cada objeto.
+- **Mejor caso:** O(n log n).
+- **Caso promedio:** O(n log n).
+- **Peor caso:** O(n log n).
 
-Si el archivo no se puede abrir o se encuentra un registro con un formato inválido, el programa informa del problema y no continúa con la ejecución normal.
+La función divide recursivamente el conjunto de jugadores en dos mitades, hasta llegar a elementos individuales. Posteriormente, combina las mitades en orden, comparando los valores de los jugadores.
 
-Una ventaja de esta implementación es que se pueden agregar, eliminar o modificar jugadores directamente en `jugadores.txt`, sin tener que modificar el código de `main.cpp`.
+La división genera O(log n) niveles y en cada nivel se procesan O(n) elementos, por lo que la complejidad total es O(n log n).
 
-## Instrucciones para compilar el proyecto
+La función `mergeArray` tiene una complejidad de O(n), debido a que recorre y combina los elementos de las dos mitades.
 
-Se necesita un compilador de C++ compatible con C++11.
+### Hace un análisis de complejidad correcto y completo de todas las estructuras de datos y cada uno de sus usos en el programa
 
-Desde una terminal, dentro de la carpeta del proyecto, ejecutar:
+#### Cola de jugadores (QueueList)
 
-    g++ main.cpp -std=c++11 -o segundo_avance
+La cola se utiliza para almacenar los jugadores que se cargan desde el archivo y permitir su administración dentro del programa.
 
-## Instrucciones para ejecutar el proyecto
+- **Inserción (`enqueue`): O(1).** Se agrega un elemento al final de la lista.
+- **Eliminación (`dequeue`): O(1).** Se elimina el primer elemento.
+- **Acceso al primer elemento (`front`): O(1).** Se obtiene directamente el elemento del inicio.
+- **Verificar si está vacía (`empty`): O(1).** Se consulta la cantidad de elementos.
+- **Vaciar la cola (`clear`): O(n).** Se eliminan todos los elementos.
+- **Recorrer la cola: O(n).** Es necesario visitar cada jugador.
+- **Convertir la cola a un vector: O(n).** Se recorren los elementos y se copian al vector.
 
-Después de compilar, ejecutar el programa con el siguiente comando.
+#### Árbol AVL
 
-**Linux o macOS:**
+El árbol AVL se utiliza para organizar a los jugadores según el criterio seleccionado y realizar consultas por sus valores.
 
-    ./segundo_avance
+- **Inserción (`add`): O(log n).** Se recorre el árbol para encontrar la posición correspondiente y se actualiza el balance mediante rotaciones.
+- **Búsqueda (`find`): O(log n).** Se recorren los niveles del árbol hasta encontrar el valor solicitado.
+- **Consulta de jugadores (`search`): O(log n + n).** Se busca el nodo correspondiente y posteriormente se recorren los jugadores repetidos almacenados en su vector.
+- **Eliminación (`remove`): O(log n + n).** Se localiza el nodo y, cuando existen valores repetidos, se revisan para encontrar el jugador que se desea eliminar.
+- **Eliminar todos los nodos (`removeAll`): O(n).** Se recorren y eliminan todos los nodos del árbol.
+- **Recorrido inorden (`inorder`): O(n).** Se visitan todos los nodos y sus jugadores repetidos.
+- **Recorrido preorden (`preorder`): O(n).** Se visitan todos los nodos y sus jugadores repetidos.
+- **Rotaciones: O(1).** Cada rotación realiza una cantidad constante de cambios en los enlaces de los nodos.
+- **Actualizar altura y balance: O(1).** Se utilizan los valores almacenados en cada nodo para actualizar su información.
 
-**Windows:**
+La búsqueda, inserción y eliminación tienen una complejidad de O(log n) para recorrer el árbol, debido a que se mantiene balanceado. Cuando también es necesario recorrer jugadores repetidos, el costo adicional puede ser O(n).
 
-    segundo_avance.exe
+### Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa
 
-Es importante que `jugadores.txt` se encuentre en el directorio de trabajo desde el cual se ejecuta el programa, ya que se utiliza ese nombre para abrir el archivo.
+#### Búsqueda binaria
 
-## ¿Cómo usar el programa?
+El programa utiliza búsqueda binaria para localizar jugadores dentro de un vector previamente ordenado.
 
-Al ejecutar el programa se muestra el menú principal:
+- **Mejor caso:** O(1), cuando el elemento buscado se encuentra en la primera comparación.
+- **Caso promedio:** O(log n).
+- **Peor caso:** O(log n).
 
-    ===== ESTADISTICAS DE JUGADORES DE LA NBA =====
-    1. Mostrar jugadores
-    2. Ordenar jugadores
-    3. Buscar jugador
-    4. Salir
+En cada iteración se descarta la mitad de los elementos que todavía pueden contener el valor buscado.
 
-### 1. Mostrar jugadores
+Sin embargo, para realizar esta búsqueda primero se necesita ordenar los jugadores y convertir la cola en un vector. Por lo tanto, considerando todo el proceso:
 
-Muestra los jugadores cargados desde `jugadores.txt`, junto con sus estadísticas.
+- Ordenamiento: O(n log n).
+- Conversión de cola a vector: O(n).
+- Búsqueda binaria: O(log n).
 
-### 2. Ordenar jugadores
+La complejidad total de una consulta que requiere ordenar antes de buscar es O(n log n).
 
-Permite ordenar a los jugadores utilizando uno de los siguientes criterios:
+#### Lectura de archivos
 
-    Ordenar por:
-    1. Nombre
-    2. Equipo
-    3. Posicion
-    4. Edad
-    5. Altura
-    6. Puntos
-    7. Rebotes
-    8. Asistencias
+La función encargada de cargar los jugadores utiliza `ifstream` para leer el archivo `jugadores.txt`.
 
-Se debe seleccionar un número del 1 al 8. El programa utiliza Merge Sort para ordenar a los jugadores según el atributo seleccionado y posteriormente muestra los datos ordenados.
+- **Lectura del archivo:** O(n), porque se procesa cada registro.
+- **Conversión de los datos:** O(1) por jugador, considerando que cada registro contiene una cantidad fija de atributos.
+- **Inserción de cada jugador en la cola:** O(1).
 
-### 3. Buscar jugador
+Por lo tanto, cargar todos los jugadores tiene una complejidad de O(n).
 
-Permite buscar un jugador utilizando uno de los ocho atributos disponibles.
+#### Escritura de archivos
 
-El usuario selecciona el criterio e introduce el valor que desea buscar. Antes de realizar la búsqueda, el programa ordena los datos según el criterio seleccionado y los convierte a un vector.
+Cuando se guardan los registros de los jugadores en un archivo, es necesario recorrer los elementos que se desean almacenar.
 
-La búsqueda binaria recursiva, implementada mediante `bs_rec()`, permite localizar el registro correspondiente. Si se encuentra una coincidencia, se muestran los datos del jugador; de lo contrario, se informa que no se encontró un registro con ese valor.
+- **Escritura de todos los jugadores:** O(n).
 
-### 4. Salir
+#### Complejidad final del programa
 
-Termina la ejecución del programa.
+Considerando las operaciones principales del programa:
 
-Si se introduce una opción que no corresponde con el menú, el programa muestra un mensaje indicando que la opción no es válida.
+- Cargar los jugadores: O(n).
+- Mostrar todos los jugadores: O(n).
+- Ordenar los jugadores: O(n log n).
+- Buscar un jugador mediante búsqueda binaria, incluyendo el ordenamiento previo: O(n log n).
+- Buscar un valor en el árbol AVL: O(log n), sin considerar los elementos repetidos que deban mostrarse.
+- Recorrer todos los jugadores del árbol: O(n).
 
-## Descripción de las entradas del proyecto
+Por lo tanto, la complejidad temporal de las operaciones principales que requieren ordenar los registros es O(n log n). Las operaciones que solamente recorren o muestran todos los jugadores tienen una complejidad de O(n).
 
-El programa utiliza las siguientes entradas:
+### Presenta casos de prueba correctos y completos para todas las funciones y procedimientos del programa
 
-- **Archivo `jugadores.txt`:** contiene los registros de los jugadores, separados por punto y coma.
-- **Opción del menú:** permite seleccionar la operación que se desea realizar.
-- **Criterio de ordenamiento:** determina el atributo por el cual se ordenan los jugadores.
-- **Criterio y valor de búsqueda:** permiten especificar el atributo y el dato que se desea localizar.
+Los casos de prueba deben comprobar el funcionamiento de las estructuras de datos, los algoritmos y las operaciones principales del programa.
 
-La cantidad de jugadores no está limitada a los diez registros del ejemplo; es posible agregar más líneas al archivo, siempre que respeten el formato establecido.
+Entre las pruebas se consideran:
 
-## Descripción de las salidas del proyecto
+**Cola de jugadores**
 
-El programa puede producir las siguientes salidas:
+- Insertar varios jugadores.
+- Consultar el primer jugador.
+- Eliminar jugadores.
+- Comprobar el comportamiento de una cola vacía.
+- Vaciar la cola.
 
-- Una tabla con los jugadores y sus estadísticas.
-- Una tabla con los jugadores ordenados según el criterio seleccionado.
-- Los datos del jugador encontrado durante una búsqueda.
-- Mensajes que indican cuando no se encuentra un jugador.
-- Mensajes de validación para opciones incorrectas o problemas al cargar el archivo.
-- Un mensaje de salida al terminar la ejecución.
+**Merge Sort**
 
-## Desarrollo de competencias
+- Ordenar jugadores por nombre.
+- Ordenar jugadores por equipo.
+- Ordenar jugadores por posición.
+- Ordenar jugadores por atributos numéricos.
+- Comprobar el orden ascendente y descendente.
+- Ordenar una colección vacía, con un elemento y con varios elementos.
 
-### SICT0301: Evalúa los componentes
+**Búsqueda binaria**
 
-#### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa.
+- Buscar un jugador existente.
+- Buscar un jugador inexistente.
+- Buscar el primer y último elemento.
+- Buscar un elemento cuando solamente existe un registro.
 
-El análisis de complejidad de los algoritmos de ordenamiento se encuentra documentado directamente en el código.
+**Árbol AVL**
 
-#### Hace un análisis de complejidad correcto y completo de todas las estructuras de datos y cada uno de sus usos en el programa.
+- Insertar diferentes jugadores.
+- Insertar jugadores con valores repetidos.
+- Buscar valores existentes e inexistentes.
+- Eliminar jugadores.
+- Comprobar las eliminaciones cuando existen valores repetidos.
+- Comprobar los recorridos inorden y preorden.
+- Verificar que el árbol se mantenga balanceado después de inserciones y eliminaciones.
 
-El análisis de complejidad de las estructuras de datos y sus operaciones se encuentra documentado directamente en el código.
+**Archivos**
 
-### SICT0302: Toma decisiones
+- Cargar correctamente los registros de `jugadores.txt`.
+- Comprobar el comportamiento cuando el archivo no existe.
+- Comprobar registros incompletos o con datos inválidos.
+- Verificar que los registros se guarden correctamente cuando se modifica la información.
 
-#### Selecciona un algoritmo de ordenamiento adecuado al problema y lo usa correctamente.
+## SICT0303B: Implementa acciones científicas
 
-Se seleccionó **Merge Sort** porque permite ordenar a los jugadores según diferentes atributos y mantiene una complejidad temporal de `O(n log n)` en el mejor caso, el caso promedio y el peor caso.
+### Implementa mecanismos para consultar información de las estructuras correctos y útiles dentro de un programa
 
-También se consideraron algoritmos como Bubble Sort, Selection Sort e Insertion Sort. Merge Sort se eligió por su eficiencia cuando aumenta la cantidad de datos y porque permite reutilizar la misma lógica para ordenar los ocho atributos de los jugadores.
+El programa cuenta con diferentes mecanismos para consultar la información almacenada.
 
-#### Selecciona una estructura de datos adecuada al problema y la usa correctamente.
+Se pueden mostrar todos los jugadores registrados y ordenar la información por cualquiera de sus ocho atributos utilizando Merge Sort.
 
-Se implementaron las estructuras `QueueList` y `QueueVector` para almacenar y administrar la información de los jugadores de la NBA.
+También se puede buscar un jugador mediante búsqueda binaria, después de ordenar los registros según el criterio seleccionado.
 
-El programa utiliza principalmente `QueueList` y convierte sus datos a un vector para realizar las operaciones de ordenamiento y búsqueda.
+Adicionalmente, el árbol AVL permite consultar jugadores por el valor de un atributo, encontrar registros con valores repetidos y mostrar la información mediante recorridos inorden y preorden.
 
-Se consideraron las diferencias de complejidad entre ambas estructuras: el acceso por posición en un vector es `O(1)`, mientras que localizar un elemento por posición en una lista enlazada requiere, en general, `O(n)`. Por ello, se utiliza un vector para facilitar el acceso a los elementos durante las operaciones de ordenamiento y búsqueda binaria.
+### Implementa mecanismos de lectura de archivos para cargar datos a las estructuras de manera correcta
 
-El análisis de complejidad de las estructuras de datos y sus operaciones se encuentra documentado directamente en el código.
+Los jugadores se encuentran registrados en el archivo `jugadores.txt`, desde donde se leen al iniciar el programa.
 
-### SICT0303: Implementa acciones científicas
+La función `cargarJugadores` utiliza `ifstream`, `getline` y `stringstream` para separar los datos de cada registro. Posteriormente, convierte los atributos numéricos y crea los objetos `Jugador`, que se insertan en la cola.
 
-#### Implementa mecanismos para consultar información de las estructuras correctamente.
+También se realizan validaciones para evitar cargar registros incompletos o con datos inválidos.
 
-Se implementaron mecanismos para consultar y organizar la información de los jugadores de la NBA mediante las estructuras de datos `QueueList` y `QueueVector`.
+### Implementa mecanismos de escritura de archivos para guardar los datos de las estructuras de manera correcta
 
-El programa permite mostrar todos los jugadores registrados y sus estadísticas, así como ordenar la información utilizando Merge Sort según cualquiera de los ocho atributos disponibles: nombre, equipo, posición, edad, altura, puntos, rebotes y asistencias.
+El programa utiliza archivos de texto para conservar la información de los jugadores.
 
-También se implementaron los algoritmos de búsqueda binaria iterativa y recursiva. En el menú actual se utiliza la búsqueda binaria recursiva mediante `bs_rec()`. Antes de realizar la búsqueda, los datos se ordenan de acuerdo con el criterio correspondiente, ya que la búsqueda binaria requiere que los elementos estén ordenados.
+El archivo `jugadores.txt` contiene los datos originales que se cargan al iniciar el programa. Por otra parte, `ordenados.txt` se utiliza para almacenar los resultados generados al ordenar los jugadores.
 
-Con estas funcionalidades, el usuario puede consultar la información de manera organizada y encontrar jugadores sin tener que revisar manualmente todos los registros.
-
-#### Implementa mecanismos de lectura de archivos para cargar datos a las estructuras de manera correcta.
-
-Se implementó la función `cargarJugadores()` para leer los datos de los jugadores desde un archivo externo llamado `jugadores.txt`.
-
-La función utiliza el manejo de archivos de C++ para abrir el archivo, leer cada registro, separar los campos mediante punto y coma y convertir los valores numéricos a sus tipos correspondientes. Después, crea los objetos `Jugador` y los almacena en `QueueList`.
-
-También se contempla la validación del formato de los registros y la detección de errores durante la apertura del archivo.
-
-Esta implementación permite administrar los datos de forma independiente al código fuente, facilita la actualización de los registros y evita modificar `main.cpp` cada vez que se desea agregar o cambiar un jugador.
+De esta manera, se mantiene separado el conjunto de datos original de los resultados del ordenamiento, evitando modificar los registros originales cada vez que se genera un reporte.
