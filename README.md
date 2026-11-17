@@ -60,7 +60,7 @@ Se utiliza un `vector<Jugador>` como estructura principal para almacenar todos l
 
 - **Acceso por índice:** O(1).
 - **Recorrido completo:** O(n).
-- **Agregar al final:** O(1) amortizado.
+- **Agregar al final:** O(1).
 - **Buscar un registro:** O(n).
 - **Eliminar un registro:** O(n).
 
