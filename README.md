@@ -1,4 +1,3 @@
-
 # NBA Player Stats
 
 ## Descripción del proyecto
@@ -23,29 +22,25 @@ El programa cuenta con las siguientes opciones:
 
 Cada jugador se representa mediante la clase `Jugador`, que contiene los siguientes atributos:
 
-| Atributo | Tipo de dato |
-|---|---|
-| Nombre | `string` |
-| Equipo | `string` |
-| Posición | `string` |
-| Edad | `int` |
-| Altura | `int` |
-| Puntos | `double` |
-| Rebotes | `double` |
-| Asistencias | `double` |
+- **Nombre:** `string`
+- **Equipo:** `string`
+- **Posición:** `string`
+- **Edad:** `int`
+- **Altura:** `int`
+- **Puntos:** `double`
+- **Rebotes:** `double`
+- **Asistencias:** `double`
 
 La clase cuenta con un constructor, métodos para consultar cada atributo y una función `toString()` para representar la información del jugador.
 
 ## Estructura del proyecto
 
-| Archivo | Descripción |
-|---|---|
-| `main.cpp` | Contiene el menú principal, las funciones auxiliares y la lógica para administrar los jugadores. |
-| `jugador.h` | Define la clase `Jugador` y sus atributos. |
-| `AVL.h` | Implementa los árboles AVL utilizados como índices de búsqueda. |
-| `sorts.h` | Implementa el algoritmo Merge Sort. |
-| `jugadores.txt` | Contiene los registros originales y almacena los cambios realizados. |
-| `jugadores_ordenados.txt` | Almacena el resultado de ordenar los jugadores. |
+- **`main.cpp`:** contiene el menú principal, las funciones auxiliares y la lógica para administrar los jugadores.
+- **`jugador.h`:** define la clase `Jugador` y sus atributos.
+- **`AVL.h`:** implementa los árboles AVL utilizados como índices de búsqueda.
+- **`sorts.h`:** implementa el algoritmo Merge Sort.
+- **`jugadores.txt`:** contiene los registros originales y almacena los cambios realizados.
+- **`jugadores_ordenados.txt`:** almacena el resultado de ordenar los jugadores.
 
 ## Estructuras de datos utilizadas
 
@@ -63,13 +58,11 @@ Se utiliza un `vector<Jugador>` como estructura principal para almacenar todos l
 
 **Complejidades:**
 
-| Operación | Complejidad |
-|---|---|
-| Acceso por índice | O(1) |
-| Recorrido completo | O(n) |
-| Agregar al final | O(1) amortizado |
-| Buscar un registro | O(n) |
-| Eliminar un registro | O(n) |
+- **Acceso por índice:** O(1).
+- **Recorrido completo:** O(n).
+- **Agregar al final:** O(1) amortizado.
+- **Buscar un registro:** O(n).
+- **Eliminar un registro:** O(n).
 
 La eliminación tiene complejidad O(n) porque primero se localiza el registro y posteriormente se utiliza `erase`, que puede desplazar los elementos restantes.
 
@@ -77,16 +70,14 @@ La eliminación tiene complejidad O(n) porque primero se localiza el registro y 
 
 Se implementaron ocho árboles AVL independientes mediante la clase `AVL<Jugador>`. Cada árbol organiza los jugadores utilizando un atributo diferente:
 
-| Árbol AVL | Criterio |
-|---|---|
-| `nombre` | Nombre |
-| `equipo` | Equipo |
-| `posicion` | Posición |
-| `edad` | Edad |
-| `altura` | Altura |
-| `puntos` | Puntos |
-| `rebotes` | Rebotes |
-| `asistencias` | Asistencias |
+- **`nombre`:** organiza por nombre.
+- **`equipo`:** organiza por equipo.
+- **`posicion`:** organiza por posición.
+- **`edad`:** organiza por edad.
+- **`altura`:** organiza por altura.
+- **`puntos`:** organiza por puntos.
+- **`rebotes`:** organiza por rebotes.
+- **`asistencias`:** organiza por asistencias.
 
 La clase `Indices` administra los ocho árboles. Cuando se agrega un jugador, este se inserta en todos los índices; cuando se elimina, se retira de cada uno.
 
@@ -105,15 +96,40 @@ Por ejemplo, si varios jugadores pertenecen al mismo equipo, todos se almacenan 
 
 **Complejidades:**
 
-| Operación | Mejor caso | Caso promedio | Peor caso |
-|---|---|---|---|
-| Inserción | O(1) | O(log n) | O(log n) |
-| Búsqueda de clave (`find`) | O(1) | O(log n) | O(log n) |
-| Búsqueda de jugadores (`search`) | O(1) | O(log n + r) | O(log n + r) |
-| Eliminación (`remove`) | O(1) | O(log n + d) | O(log n + d) |
-| Recorrido inorder | O(n) | O(n) | O(n) |
-| Recorrido preorder | O(n) | O(n) | O(n) |
-| Eliminar todos los nodos | O(1) | O(n) | O(n) |
+- **Inserción:**
+  - Mejor caso: O(1).
+  - Caso promedio: O(log n).
+  - Peor caso: O(log n).
+
+- **Búsqueda de clave (`find`):**
+  - Mejor caso: O(1).
+  - Caso promedio: O(log n).
+  - Peor caso: O(log n).
+
+- **Búsqueda de jugadores (`search`):**
+  - Mejor caso: O(1).
+  - Caso promedio: O(log n + r).
+  - Peor caso: O(log n + r).
+
+- **Eliminación (`remove`):**
+  - Mejor caso: O(1).
+  - Caso promedio: O(log n + d).
+  - Peor caso: O(log n + d).
+
+- **Recorrido inorder:**
+  - Mejor caso: O(n).
+  - Caso promedio: O(n).
+  - Peor caso: O(n).
+
+- **Recorrido preorder:**
+  - Mejor caso: O(n).
+  - Caso promedio: O(n).
+  - Peor caso: O(n).
+
+- **Eliminar todos los nodos:**
+  - Mejor caso: O(1).
+  - Caso promedio: O(n).
+  - Peor caso: O(n).
 
 Donde:
 
@@ -131,11 +147,11 @@ Las rotaciones simples y dobles utilizadas para mantener el balance del árbol t
 
 La clase `Indices` administra los ocho árboles AVL y permite realizar operaciones sobre ellos de manera conjunta.
 
-| Operación | Complejidad |
-|---|---|
-| Agregar un jugador a los ocho índices | O(log n) |
-| Buscar jugadores por un criterio | O(log n + r) |
-| Eliminar un jugador de los ocho índices | O(log n + d) |
+**Complejidades:**
+
+- **Agregar un jugador a los ocho índices:** O(log n).
+- **Buscar jugadores por un criterio:** O(log n + r).
+- **Eliminar un jugador de los ocho índices:** O(log n + d).
 
 Estas complejidades consideran que se realizan ocho operaciones AVL, una por cada atributo. Como la cantidad de árboles es constante, no modifica el orden asintótico.
 
@@ -162,12 +178,10 @@ La implementación cuenta con los siguientes métodos auxiliares:
 
 **Complejidad de Merge Sort:**
 
-| Caso | Complejidad |
-|---|---|
-| Mejor caso | O(n log n) |
-| Caso promedio | O(n log n) |
-| Peor caso | O(n log n) |
-| Espacio auxiliar | O(n) |
+- **Mejor caso:** O(n log n).
+- **Caso promedio:** O(n log n).
+- **Peor caso:** O(n log n).
+- **Espacio auxiliar:** O(n).
 
 El algoritmo mantiene la misma complejidad temporal en todos los casos porque siempre divide el vector en mitades y realiza las combinaciones correspondientes.
 
@@ -204,30 +218,28 @@ Donde `n` representa la cantidad de jugadores y `r` la cantidad de registros que
 
 Además de las estructuras de datos y el algoritmo de ordenamiento, el programa contiene funciones auxiliares para mostrar, convertir, cargar, guardar y administrar los registros.
 
-| Función o componente | Complejidad | Descripción |
-|---|---|---|
-| `mostrarJugadores()` | O(n) | Recorre el vector y muestra todos los registros. |
-| `convertirEntero()` | O(L) | Convierte una cadena a entero y valida su contenido. |
-| `convertirDouble()` | O(L) | Convierte una cadena a double y valida su contenido. |
-| `convertirJugador()` | O(L) | Separa y convierte los ocho campos de una línea del archivo. |
-| `cargarJugadores()` | O(n log n) | Lee los registros y los inserta en el vector y en los ocho árboles AVL. |
-| `guardarJugadores()` | O(n) | Recorre el vector y escribe los registros en un archivo. |
-| `crearClave()` | O(L) | Construye un objeto temporal para realizar una búsqueda. |
-| `capturarJugador()` | O(1) | Captura los atributos de un nuevo jugador, considerando una cantidad fija de campos. |
-| `mismoJugador()` | O(1) | Compara los ocho atributos de dos jugadores, bajo el modelo de costo utilizado. |
+**Funciones y componentes:**
+
+- **`mostrarJugadores()`: O(n).** Recorre el vector y muestra todos los registros.
+- **`convertirEntero()`: O(L).** Convierte una cadena a entero y valida su contenido.
+- **`convertirDouble()`: O(L).** Convierte una cadena a double y valida su contenido.
+- **`convertirJugador()`: O(L).** Separa y convierte los ocho campos de una línea del archivo.
+- **`cargarJugadores()`: O(n log n).** Lee los registros y los inserta en el vector y en los ocho árboles AVL.
+- **`guardarJugadores()`: O(n).** Recorre el vector y escribe los registros en un archivo.
+- **`crearClave()`: O(L).** Construye un objeto temporal para realizar una búsqueda.
+- **`capturarJugador()`: O(1).** Captura los atributos de un nuevo jugador, considerando una cantidad fija de campos.
+- **`mismoJugador()`: O(1).** Compara los ocho atributos de dos jugadores, bajo el modelo de costo utilizado.
 
 Donde `L` representa la longitud de la cadena procesada.
 
 ### Complejidad de las operaciones principales
 
-| Operación del menú | Complejidad |
-|---|---|
-| Mostrar jugadores | O(n) |
-| Ordenar jugadores | O(n log n) |
-| Buscar jugadores | O(log n + r) |
-| Agregar jugador | O(log n) |
-| Eliminar jugador | O(n + log n + d) |
-| Guardar jugadores | O(n) |
+- **Mostrar jugadores:** O(n).
+- **Ordenar jugadores:** O(n log n).
+- **Buscar jugadores:** O(log n + r).
+- **Agregar jugador:** O(log n).
+- **Eliminar jugador:** O(n + log n + d).
+- **Guardar jugadores:** O(n).
 
 **Consideraciones:**
 
@@ -241,15 +253,13 @@ Donde `L` representa la longitud de la cadena procesada.
 
 Considerando las operaciones principales, el programa presenta las siguientes complejidades:
 
-| Operación | Complejidad temporal |
-|---|---|
-| Mostrar todos los jugadores | O(n) |
-| Ordenar todos los jugadores | O(n log n) |
-| Buscar por atributo | O(log n + r) |
-| Agregar un jugador | O(log n) |
-| Eliminar un jugador | O(n) |
-| Cargar los registros iniciales | O(n log n) |
-| Guardar los registros | O(n) |
+- **Mostrar todos los jugadores:** O(n).
+- **Ordenar todos los jugadores:** O(n log n).
+- **Buscar por atributo:** O(log n + r).
+- **Agregar un jugador:** O(log n).
+- **Eliminar un jugador:** O(n).
+- **Cargar los registros iniciales:** O(n log n).
+- **Guardar los registros:** O(n).
 
 La operación de mayor complejidad temporal entre las operaciones principales es el ordenamiento mediante Merge Sort, con O(n log n).
 
@@ -293,80 +303,3 @@ El formato de cada registro es:
 
 ```text
 Nombre;Equipo;Posicion;Edad;Altura;Puntos;Rebotes;Asistencias
-```
-
-### jugadores_ordenados.txt
-
-Es el archivo generado cuando el usuario ejecuta la opción de ordenar.
-
-- Contiene los jugadores ordenados de acuerdo con el criterio seleccionado.
-- Se genera a partir del vector devuelto por Merge Sort.
-- No reemplaza el archivo principal `jugadores.txt`.
-
-### Lectura y escritura
-
-La lectura se realiza mediante `ifstream` y la escritura mediante `ofstream`.
-
-La función `convertirJugador()` verifica que cada línea contenga exactamente ocho campos y que los valores numéricos puedan convertirse correctamente antes de incorporar el registro al sistema.
-
-La función `guardarJugadores()` recorre el vector y escribe los atributos de cada jugador separados por punto y coma.
-
-## Instrucciones de ejecución
-
-1. Colocar los archivos `main.cpp`, `jugador.h`, `AVL.h`, `sorts.h` y `jugadores.txt` dentro del mismo directorio.
-2. Compilar el programa utilizando un compilador compatible con C++.
-
-Ejemplo utilizando g++:
-
-```bash
-g++ main.cpp -o nba_stats
-```
-
-3. Ejecutar el programa:
-
-```bash
-./nba_stats
-```
-
-En Windows, se puede ejecutar con:
-
-```bash
-nba_stats.exe
-```
-
-Es importante mantener `jugadores.txt` en el mismo directorio desde el que se ejecuta el programa para que pueda cargar los registros iniciales.
-
-## Competencias desarrolladas
-
-### SICT0301 - Evalúa los componentes que integran una solución tecnológica y procesos relacionados considerando criterios de calidad y eficiencia.
-
-Se analizaron las complejidades temporales y espaciales de los algoritmos, las estructuras de datos y las funciones auxiliares del programa.
-
-Se documentaron las operaciones de inserción, búsqueda, eliminación y recorrido de los árboles AVL, así como las operaciones del vector y el algoritmo Merge Sort.
-
-También se identificó la complejidad general de las operaciones principales del sistema.
-
-### SICT0302 - Toma decisiones de diseño de software considerando las estructuras de datos y algoritmos más adecuados para resolver un problema.
-
-Se seleccionó un vector como estructura principal para almacenar los jugadores debido a su facilidad de acceso y administración.
-
-Se implementaron ocho árboles AVL para organizar los registros por diferentes atributos y permitir búsquedas eficientes.
-
-Finalmente, se seleccionó Merge Sort como algoritmo de ordenamiento por su complejidad O(n log n) en el mejor, promedio y peor caso.
-
-### Otras funcionalidades desarrolladas
-
-- Consultas de jugadores mediante ocho criterios diferentes.
-- Manejo de registros que comparten valores en los atributos.
-- Lectura de archivos para recuperar la información al iniciar el programa.
-- Escritura de archivos para conservar los cambios realizados.
-- Validación de entradas numéricas.
-- Presentación organizada de los registros mediante tablas.
-
-## Conclusión
-
-El proyecto integra diferentes estructuras de datos y algoritmos para desarrollar un sistema de administración de estadísticas de jugadores de la NBA.
-
-El uso de un vector permite administrar los registros principales, mientras que los ocho árboles AVL facilitan las consultas por diferentes atributos. Merge Sort permite ordenar la información de manera eficiente y los archivos de texto hacen posible conservar los datos entre ejecuciones.
-
-La combinación de estos componentes permite realizar las operaciones principales del sistema considerando su eficiencia temporal y espacial.
