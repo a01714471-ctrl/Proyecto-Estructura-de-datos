@@ -1,7 +1,7 @@
 /*
  * sorts.h
  *
- * Created on: 20/09/2026
+ * Created on: 12/11/2026
  * Author: Julio Cesar Hdez.
  */
 
@@ -25,7 +25,7 @@ public:
     vector<T> mergeSort(const vector<T>&, int);
 };
 
-// Compara dos jugadores según el criterio.
+// Compara dos jugadores segÃºn el criterio.
 // Mejor caso: O(1).
 // Caso promedio: O(1).
 // Peor caso: O(1).
@@ -143,7 +143,7 @@ void Sorts<T>::mergeArray(vector<T>& A, vector<T>& B,
 // Mejor caso: O(n log n).
 // Caso promedio: O(n log n).
 // Peor caso: O(n log n).
-// Espacio auxiliar: O(log n) por la recursión.
+// Espacio auxiliar: O(log n) por la recursiÃ³n.
 template <class T>
 void Sorts<T>::mergeSplit(vector<T>& A, vector<T>& B,
                           int low, int high, int criterio) {
